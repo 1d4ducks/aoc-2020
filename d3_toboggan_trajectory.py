@@ -30,17 +30,11 @@ def count_trees(l, item):
     return l.count(item)
 
 def find_trajectory(input_map):
-    result = []
     idx = 3
     char_map = lines_to_chars(input_map)
     to_next_idx = find_idx_interval(input_map)
 
-    for char in char_map:
-        try:
-            result.append(char_map[idx])
-            idx += to_next_idx
-        except IndexError:
-            break
+    result = char_map[::to_next_idx]
         
     result = remove_first_value_from_result(result)
     number_of_trees = count_trees(result, '#')
