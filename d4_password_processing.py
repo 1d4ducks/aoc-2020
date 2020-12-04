@@ -22,25 +22,26 @@ raw_passports = list(split(raw_data, ''))
 passports_sublists = [' '.join(passport).split() for passport in raw_passports]
 passports_items = [[item.split(':') for item in passport] for passport in passports_sublists]
 
-def from_nested_to_dict(lst_of_lists_of_lsts):
-    passports = []
+def from_nested_to_dict(lst_of_lsts_of_lsts):
+    result = []
 
-    for item in passports_items:
+    for item in lst_of_lsts_of_lsts:
         d = dict()
         for field in item:
             d[field[0]] = field[1]
-        passports.append(d)
-    return passports
+        result.append(d)
+    return result
+
+def validate_passports(lst):
+    necessary_keys = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
+    valid_passports = 0
+    for passport in passports:
+        if all(necessary_key in passport for necessary_key in necessary_keys):
+            valid_passports += 1
+        else:
+            False
+    return valid_passports
 
 passports = from_nested_to_dict(passports_items)
-
-necessary_keys = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-
-valid_passports = 0
-for passport in passports:
-    if all(necessary_key in passport for necessary_key in necessary_keys):
-        valid_passports += 1
-    else:
-        False
-
+valid_passports = validate_passports(passports)
 print(valid_passports)
